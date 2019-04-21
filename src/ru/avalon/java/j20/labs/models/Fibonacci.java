@@ -1,5 +1,6 @@
 package ru.avalon.java.j20.labs.models;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -17,13 +18,64 @@ import java.util.Iterator;
  * @see <a href="https://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D1%87%D0%B8">Числа Фибоначчи</a>
  */
 public class Fibonacci implements Iterable<Integer> {
+    public final int START_SIZE;
+    private Integer fibNumber = 1;
+    private int pointer;
+
+    private Integer[] data;
+
+    public int getSize() {
+        return pointer;
+    }
+
+    public boolean isEmpty() {
+        return pointer == 0;
+    }
+
+    public Integer get(int index) {
+        return data[index];
+    }
+
+    public String showFibLine() {
+        return Arrays.toString(data);
+    }
+
+    public Fibonacci(Integer START_SIZE) {
+        this.START_SIZE = START_SIZE;
+        data = new Integer[START_SIZE];
+        data[pointer] = 0;
+        for (pointer = 1; pointer < START_SIZE; ) {
+            data[pointer] = fibNumber;
+            fibNumber += data[pointer - 1];
+            pointer++;
+        }
+    }
+
+    public void add(int growSize) {
+        int previousLength = data.length;
+        fibNumber = data[data.length - 1];
+        data = Arrays.copyOf(data, data.length + growSize);
+        for (pointer = previousLength; pointer < data.length; ) {
+            data[pointer] = fibNumber;
+            fibNumber += data[pointer - 1];
+            pointer++;
+        }
+    }
+
+    public int sum() {
+        int sum = 0;
+        for (Integer i : data) sum += i.intValue();
+        return sum;
+    }
+
 
     /**
      * Итератор, выполняющий обход последовательности
      * чисел Фибоначчи.
      */
-    private static class FibonacciIterator implements Iterator<Integer> {
+    private class FibonacciIterator implements Iterator<Integer> {
 
+        private int index;
         /**
          * Определяет, есть ли следующее значение
          * последовательности чисел Фибоначчи.
@@ -34,7 +86,7 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public boolean hasNext() {
-            throw new UnsupportedOperationException("Not implemented yet!");
+            return index < pointer;
         }
 
         /**
@@ -45,7 +97,7 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public Integer next() {
-            throw new UnsupportedOperationException("Not implemented yet!");
+            return data[index++];
         }
     }
 

@@ -1,6 +1,7 @@
 package ru.avalon.java.j20.labs.tasks;
 
 import ru.avalon.java.j20.labs.Task;
+import ru.avalon.java.j20.labs.models.Fibonacci;
 
 import java.util.Iterator;
 
@@ -13,6 +14,15 @@ public class Task3 implements Task {
 
     @Override
     public void run() {
+        Fibonacci fibList = new Fibonacci(15);
+        fibList.add(5);
+
+        System.out.println("\nЗадание 3");
+        System.out.println(fibList.showFibLine());
+        System.out.println("Элемент в массиве с 10 индексом: \t" + fibList.get(10));
+        System.out.println("Сумма массива из 20 элементов: \t\t" + fibList.sum());
+
+
         /*
          * TODO(Студент): Выполнить задание №3
          *
